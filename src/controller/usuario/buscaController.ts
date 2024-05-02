@@ -6,8 +6,8 @@ const buscaController = async (req: Request, res: Response) => {
   try {
     const usuario = await buscaUsuario(cpf);
 
-    if (usuario === undefined) {
-      return res.status(400).json({ menssagem: "Usuario não encontrado." });
+    if (usuario === null) {
+      return res.status(404).json({ menssagem: "Usuario não encontrado." });
     }
     return res.json(usuario);
   } catch (error) {

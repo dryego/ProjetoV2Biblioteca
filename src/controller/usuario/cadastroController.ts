@@ -6,17 +6,17 @@ const cadastroContoller = async (req: Request, res: Response) => {
   const { nome, cpf } = req.body;
 
   try {
-    const novoUsuario = await cadastroUsuario(nome, cpf);
-    console.log(novoUsuario);
-
-    if ((await buscaUsuario(cpf)) !== undefined) {
+    const usuarioExistente = await buscaUsuario(cpf);
+    if (usuarioExistente?.cpf === cpf) {
       return res.status(404).json({ mensagem: "Usuario já cadastrado." });
     }
+    await cadastroUsuario(nome, cpf);
+
     return res
       .status(200)
       .json({ menssagem: "cadastro realizado com sucesso." });
   } catch (error) {
-    return res.status(500).send("Erro interno.");
+    return res.status(500).send(`Erro interno.`);
   }
 };
 

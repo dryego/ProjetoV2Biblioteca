@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import Usuario from "../../model/usuario";
+import buscaUsuario from "./buscaRepositorio";
 
 const prisma = new PrismaClient();
 
