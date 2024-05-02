@@ -1,10 +1,10 @@
 import express from "express";
-import rotas from "./routes/rotas";
+import usuarioRotas from "./routes/usuarioRotas";
 
 const server = express();
 
 server.use(express.json());
 
-server.use("/", rotas);
+server.use("/usuario", usuarioRotas);
 
 export default server;
