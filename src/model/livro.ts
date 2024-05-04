@@ -1,10 +1,20 @@
 class Livro {
+  private id: number;
   private titulo: string;
   private anoPublicacao: number;
 
-  constructor(titulo: string, anoPublicacao: number) {
+  constructor(id: number, titulo: string, anoPublicacao: number) {
+    this.id = id;
     this.titulo = titulo;
     this.anoPublicacao = anoPublicacao;
+  }
+
+  public get getId(): number {
+    return this.id;
+  }
+
+  public set setId(id: number) {
+    this.id = id;
   }
 
   public get getTitulo(): string {
