@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const quantidadeEmpretimos = async (idUsuario: number) => {
+const empretimosUsuario = async (idUsuario: number) => {
   const usuario = await prisma.usuario.findUnique({
     where: {
       id: idUsuario,
@@ -15,10 +15,8 @@ const quantidadeEmpretimos = async (idUsuario: number) => {
   if (!usuario) {
     throw new Error("Usuario nao encontrado");
   }
-
-  const quantidade = usuario?.emprestimosLivros.length;
-
-  return quantidade;
+  const emprestimos = usuario.emprestimosLivros;
+  return emprestimos;
 };
 
-export default quantidadeEmpretimos;
+export default empretimosUsuario;
