@@ -1,15 +1,13 @@
 import { PrismaClient } from "@prisma/client";
-import Livro from "../../model/livro";
 
 const prisma = new PrismaClient();
 
-const cadastroLivroRepositorio = async (
+export async function cadastroLivroRepositorio(
   id: number,
   titulo: string,
   anoPublicacao: number
-) => {
+) {
   try {
-    const novoLivro = new Livro(id, titulo, anoPublicacao);
     const livro = await prisma.livro.create({
       data: {
         id: id,
@@ -20,6 +18,4 @@ const cadastroLivroRepositorio = async (
   } catch (error) {
     throw new Error("Erro ao cadastra livro.");
   }
-};
-
-export default cadastroLivroRepositorio;
+}

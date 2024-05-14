@@ -1,6 +1,6 @@
 import express from "express";
-import buscaLivroController from "../controller/livro/buscarLivroController";
-import cadastroLivroController from "../controller/livro/cadastroLivroController";
+import { buscaLivroController } from "../controller/livro/buscarLivroController";
+import { cadastroLivroController } from "../controller/livro/cadastroLivroController";
 
 const rotas = express.Router();
 
