@@ -2,12 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const cadastroEmprestimo = async (
+export async function cadastroEmprestimo(
   idLivro: number,
   idUsuario: number,
   dataEntrega: Date,
   entregaRealizada: boolean
-) => {
+) {
   try {
     const novoEmprestimo = await prisma.emprestimo_livro.create({
       data: {
@@ -19,7 +19,6 @@ const cadastroEmprestimo = async (
     });
     return novoEmprestimo;
   } catch (error) {
-    throw new Error("Erro ao cadastra emprestimo.");
+    throw new Error("Erro ao cadastra emprestimo..");
   }
-};
-export default cadastroEmprestimo;
+}

@@ -8,11 +8,7 @@ datasource db {
 }
 
 model Usuario {
-<<<<<<< HEAD
   id                Int                @id @unique @default(autoincrement())
-=======
-  id                Int                @id @default(autoincrement())
->>>>>>> emprestimo
   nome              String
   cpf               String             @unique
   emprestimosLivros Emprestimo_livro[]
@@ -26,13 +22,6 @@ model Livro {
 }
 
 model Emprestimo_livro {
-<<<<<<< HEAD
-  id        Int     @id @default(autoincrement())
-  livroId   Int
-  usuarioId Int
-  idLivro   Livro   @relation(fields: [livroId], references: [id])
-  idUsuario Usuario @relation(fields: [usuarioId], references: [id])
-=======
   id               Int      @id @default(autoincrement())
   livroId          Int
   usuarioId        Int
@@ -40,5 +29,4 @@ model Emprestimo_livro {
   entregaRealizada Boolean
   idLivro          Livro    @relation(fields: [livroId], references: [id])
   idUsuario        Usuario  @relation(fields: [usuarioId], references: [id])
->>>>>>> emprestimo
 }

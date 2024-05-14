@@ -6,7 +6,7 @@ export async function buscaEmprestimoController(req: Request, res: Response) {
   try {
     const emprestimo = await buscaEmprestimoService(id);
 
-    if (emprestimo.data) {
+    if (emprestimo.data === null) {
       return res.status(emprestimo.status).json(emprestimo.mensagem);
     }
 
