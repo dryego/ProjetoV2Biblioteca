@@ -5,6 +5,6 @@ import buscaController from "../controller/usuario/buscaController";
 const rotas = express.Router();
 
 rotas.post("/cadastro", cadastroContoller);
-rotas.get("/mostra/:cpf", buscaController);
+rotas.get("/mostra/:id", buscaController);
 
 export default rotas;
