@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const buscaLivro = async (id: number) => {
+export async function buscaLivro(id: number) {
   try {
     const livro = await prisma.livro.findUnique({
       where: {
@@ -13,6 +13,4 @@ const buscaLivro = async (id: number) => {
   } catch (error) {
     throw new Error("Erro ao buscar livro.");
   }
-};
-
-export default buscaLivro;
+}

@@ -1,18 +1,16 @@
 import { Request, Response } from "express";
-import buscaLivro from "../../repositories/livro/buscaLivroRepositorio";
+import { buscaLivroService } from "../../service/livro/buscaLivroService";
 
-const buscaLivroController = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export async function buscaLivroController(req: Request, res: Response) {
+  const id = parseInt(req.params.id);
   try {
-    const livro = await buscaLivro(parseInt(id));
+    const livro = await buscaLivroService(id);
 
-    if (livro === null) {
-      return res.status(404).json({ mensagem: "Livro nao encontrado." });
+    if (livro.data === null) {
+      return res.status(livro.status).json(livro.mensagem);
     }
-    return res.status(200).json(livro);
+    return res.status(livro.status).json(livro.data);
   } catch (error) {
     return res.status(500).send("Erro interno.");
   }
-};
-
-export default buscaLivroController;
+}

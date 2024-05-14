@@ -1,22 +1,17 @@
 import { Request, Response } from "express";
-import buscaLivro from "../../repositories/livro/buscaLivroRepositorio";
-import cadastroLivroRepositorio from "../../repositories/livro/cadastroLivroRepositorio";
+import { cadastroLivroService } from "../../service/livro/cadastroLivroService";
 
-const cadastroLivroController = async (req: Request, res: Response) => {
+export async function cadastroLivroController(req: Request, res: Response) {
   const { id, titulo, anoPublicacao } = req.body;
   try {
-    const livro = await buscaLivro(id);
+    const livro = await cadastroLivroService(id, titulo, anoPublicacao);
 
-    if (livro?.id === id) {
-      return res.status(404).json({ mensagem: "Livro ja cadastrado." });
+    if (livro.data === null) {
+      return res.status(livro.status).json(livro.mensagem);
     }
 
-    await cadastroLivroRepositorio(id, titulo, anoPublicacao);
-
-    return res.status(200).json({ mensagem: "Livro cadastrado com sucesso." });
+    return res.status(livro.status).json(livro.mensagem);
   } catch (error) {
     return res.status(500).send("Erro interno.");
   }
-};
-
-export default cadastroLivroController;
+}
