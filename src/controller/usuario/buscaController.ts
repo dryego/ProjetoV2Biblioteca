@@ -1,17 +1,20 @@
 import { Request, Response } from "express";
-import buscaUsuario from "../../repositories/usuario/buscaRepositorio";
+import { buscaUsuarioService } from "../../service/usuario/buscaUsuarioService";
 
 const buscaController = async (req: Request, res: Response) => {
-  const { cpf } = req.params;
+  const id: number = parseInt(req.params.id);
   try {
-    const usuario = await buscaUsuario(cpf);
+    const usuario = await buscaUsuarioService(id);
 
-    if (usuario === null) {
-      return res.status(404).json({ menssagem: "Usuario não encontrado." });
+    if (usuario.data === null) {
+      return res.status(usuario.status).json(usuario.mensagem);
     }
-    return res.json(usuario);
+
+    return res.status(usuario.status).json(usuario.data);
   } catch (error) {
-    return res.status(500).send("Erro interno.");
+    console.log(error);
+
+    return res.status(500).json({ error });
   }
 };
 

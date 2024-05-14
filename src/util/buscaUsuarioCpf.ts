@@ -1,19 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
-
-export async function buscaUsuario(idUsuario: number) {
+export async function buscausuarioCpf(cpf: string) {
   try {
     const usuario = await prisma.usuario.findUnique({
       where: {
-        id: idUsuario,
-      },
-      include: {
-        emprestimosLivros: true,
+        cpf: cpf,
       },
     });
     return usuario;
   } catch (error) {
-    throw new Error("Erro ao buscar usuario.");
+    throw new Error("Erro ao busca usuario");
   }
 }
