@@ -1,13 +1,13 @@
 class EmprestimoLivro {
   private idLivro: number;
   private idUsuario: number;
-  private dataEntrega: number;
+  private dataEntrega: Date;
   private entregaRealizada: boolean;
 
   constructor(
     idLivro: number,
     idUsuario: number,
-    dataEntrega: number,
+    dataEntrega: Date,
     entregaRealizada: boolean
   ) {
     this.idLivro = idLivro;
@@ -32,11 +32,11 @@ class EmprestimoLivro {
     this.idUsuario = idUsuario;
   }
 
-  public get getDataEntrega(): number {
+  public get getDataEntrega(): Date {
     return this.dataEntrega;
   }
 
-  public set setDataEntrega(dataEntrega: number) {
+  public set setDataEntrega(dataEntrega: Date) {
     this.dataEntrega = dataEntrega;
   }
 
