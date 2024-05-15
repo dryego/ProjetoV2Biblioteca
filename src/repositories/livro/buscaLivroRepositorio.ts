@@ -8,6 +8,9 @@ export async function buscaLivro(id: number) {
       where: {
         id: id,
       },
+      include: {
+        emprestimoLivro: true,
+      },
     });
     return livro;
   } catch (error) {
