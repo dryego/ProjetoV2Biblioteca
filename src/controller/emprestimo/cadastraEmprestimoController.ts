@@ -14,6 +14,8 @@ export async function cadastroEmprestimoControll(req: Request, res: Response) {
 
     return res.status(emprestimo.status).json(emprestimo.mensagem);
   } catch (error) {
+    console.log(error);
+
     return res.status(500).send("Erro interno.");
   }
 }

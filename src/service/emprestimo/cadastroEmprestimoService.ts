@@ -2,6 +2,7 @@ import { cadastroEmprestimo } from "../../repositories/emprestimo/cadastraEmpres
 import { buscaLivro } from "../../repositories/livro/buscaLivroRepositorio";
 import { buscaUsuario } from "../../repositories/usuario/buscaRepositorio";
 import dataParaEntrega from "../../util/dataEntrega";
+import { entregaLivro } from "../../util/entregaLivro";
 
 export async function cadastroEmprestimoService(
   idUsuario: number,
@@ -15,7 +16,10 @@ export async function cadastroEmprestimoService(
       mensagem: "Usuario não encontrado.",
       data: null,
     };
-  } else if (usuario.emprestimosLivros.length >= 3) {
+  }
+  console.log(usuario.emprestimosLivros.length);
+
+  if (usuario.emprestimosLivros.length >= 3) {
     return {
       status: 404,
       mensagem: "Usuario não pode realizar novos emprestimos",
@@ -29,6 +33,20 @@ export async function cadastroEmprestimoService(
     return {
       status: 404,
       mensagem: "Livro não encontrado.",
+      data: null,
+    };
+  }
+
+  const emprestimoAtivo = livro.emprestimoLivro.some(
+    (emprestimo) => emprestimo.entregaRealizada
+  );
+  console.log(livro.emprestimoLivro);
+
+  console.log(emprestimoAtivo);
+  if (emprestimoAtivo) {
+    return {
+      status: 404,
+      mensagem: "O livro nao pode ser emprestado.",
       data: null,
     };
   }
