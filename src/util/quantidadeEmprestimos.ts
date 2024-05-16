@@ -1,27 +1,10 @@
-import { PrismaClient } from "@prisma/client";
-import buscaUsuario from "../repositories/usuario/buscaRepositorio";
-import buscaEmprestimo from "../repositories/emprestimo/buscaEmprestimoRepositorio";
-import Usuario from "../model/usuario";
+import { buscaLivro } from "../repositories/livro/buscaLivroRepositorio";
 
-const prisma = new PrismaClient();
-
-const quantidadeEmpretimos = async (idUsuario: number) => {
-  const usuario = await prisma.usuario.findUnique({
-    where: {
-      id: idUsuario,
-    },
-    include: {
-      emprestimosLivros: true,
-    },
-  });
-
-  if (!usuario) {
-    throw new Error("Usuario nao encontrado");
+export async function quantidadeEmpretimos(idlivro: number): Promise<number> {
+  const livroEmprestimo = await buscaLivro(idlivro);
+  if (!livroEmprestimo) {
+    return -1;
   }
 
-  const quantidade = usuario?.emprestimosLivros.length;
-
-  return quantidade;
-};
-
-export default quantidadeEmpretimos;
+  return livroEmprestimo.emprestimoLivro.length;
+}

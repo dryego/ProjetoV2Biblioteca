@@ -2,14 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const buscaEmprestimoLivro = async (idLivro: number) =>
-  await prisma.livro.findUnique({
+export async function buscaEmprestimoLivro(idLivro: number) {
+  const buscaEmprestimoLivro = await prisma.emprestimo_livro.findFirst({
     where: {
-      id: idLivro,
-    },
-    include: {
-      emprestimoLivro: true,
+      livroId: idLivro,
     },
   });
 
-export default buscaEmprestimoLivro;
+  return buscaEmprestimoLivro;
+}

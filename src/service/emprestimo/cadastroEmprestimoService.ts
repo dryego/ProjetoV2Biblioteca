@@ -1,57 +1,47 @@
 import { cadastroEmprestimo } from "../../repositories/emprestimo/cadastraEmprestimoRepositorio";
 import { buscaLivro } from "../../repositories/livro/buscaLivroRepositorio";
 import { buscaUsuario } from "../../repositories/usuario/buscaRepositorio";
+import { buscaEmprestimoLivro } from "../../util/buscaEmprestimoLivro";
 import dataParaEntrega from "../../util/dataEntrega";
-import { entregaLivro } from "../../util/entregaLivro";
 
 export async function cadastroEmprestimoService(
   idUsuario: number,
   idLivro: number
 ) {
-  const usuario = await buscaUsuario(idUsuario);
+  console.log(idLivro, idUsuario);
 
-  if (usuario === null) {
-    return {
-      status: 404,
-      mensagem: "Usuario não encontrado.",
-      data: null,
-    };
+  const usuario = await buscaUsuario(idUsuario);
+  const livro = await buscaLivro(idLivro);
+
+  if (!usuario) {
+    return { status: 404, mensagem: "Usuário não encontrado.", data: null };
+  }
+
+  if (!livro) {
+    return { status: 404, mensagem: "Livro não encontrado.", data: null };
   }
   console.log(usuario.emprestimosLivros.length);
 
   if (usuario.emprestimosLivros.length >= 3) {
     return {
-      status: 404,
-      mensagem: "Usuario não pode realizar novos emprestimos",
+      status: 403,
+      mensagem: "Usuário não pode realizar novos empréstimos.",
       data: null,
     };
   }
 
-  const livro = await buscaLivro(idLivro);
+  const emprestimosAtivos = await buscaEmprestimoLivro(idLivro);
+  console.log(emprestimosAtivos);
 
-  if (livro === null) {
+  if (emprestimosAtivos !== null) {
     return {
-      status: 404,
-      mensagem: "Livro não encontrado.",
+      status: 403,
+      mensagem: "O livro já está emprestado.",
       data: null,
     };
   }
 
-  const emprestimoAtivo = livro.emprestimoLivro.some(
-    (emprestimo) => emprestimo.entregaRealizada
-  );
-  console.log(livro.emprestimoLivro);
-
-  console.log(emprestimoAtivo);
-  if (emprestimoAtivo) {
-    return {
-      status: 404,
-      mensagem: "O livro nao pode ser emprestado.",
-      data: null,
-    };
-  }
-
-  const entregaRealizada: boolean = false;
+  const entregaRealizada = false;
   const dataEntrega = await dataParaEntrega();
 
   const novoEmprestimo = await cadastroEmprestimo(
@@ -63,7 +53,7 @@ export async function cadastroEmprestimoService(
 
   return {
     status: 200,
-    mensagem: "Emprestimo realizado com sucesso.",
+    mensagem: "Empréstimo realizado com sucesso.",
     data: novoEmprestimo,
   };
 }
